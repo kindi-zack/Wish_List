@@ -3,7 +3,7 @@ const { comparePassword } = require('../helpers/bcrypt')
 const { generateToken } = require('../helpers/jwt')
 
 class UserController {
-    static login(req, res) {
+    static login(req, res, next) {
         const { email, password } = req.body
 
         User.findOne({
@@ -12,9 +12,9 @@ class UserController {
             }
         })
         .then(user => {
-            if (!user) throw { msg: 'invalid email/password' }
+            if (!user) throw { name:'login', msg: 'invalid email/password' }
             const checkPass = comparePassword(password, user.password)
-            if (!checkPass) throw { msg: 'invalid email/password' } 
+            if (!checkPass) throw { name:'login', msg: 'invalid email/password' } 
             const access_token = generateToken({
                 id: user.id,
                 email: user.email
@@ -25,11 +25,12 @@ class UserController {
             })
         })
         .catch(err => {
-            res.status(400).json(err)
+            // res.status(400).json(err)
+            next(err)
         })
     }
 
-    static register(req, res) {
+    static register(req, res, next) {
         const { email, password } = req.body
         const saldo = 5000000
         User.create({
@@ -39,7 +40,8 @@ class UserController {
             res.status(201).json(data)
         })
         .catch(err => {
-            res.status(400).json(err)
+            // res.status(400).json(err)
+            next(err)
         })
     }
 }

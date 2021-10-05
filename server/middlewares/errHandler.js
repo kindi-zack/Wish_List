@@ -10,6 +10,11 @@ function errHandler(err, req, res, next) {
             });
             res.status(400).json(errMsg)
             break;
+
+        case "login": 
+            res.status(400).json(err.msg)
+            break;
+            
         default:
             res.status(500).json(err)
             break;

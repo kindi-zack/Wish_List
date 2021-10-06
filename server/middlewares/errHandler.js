@@ -12,6 +12,7 @@ function errHandler(err, req, res, next) {
             break;
 
         case "login": 
+        case "JsonWebTokenError":
             res.status(400).json(err.msg)
             break;
             

@@ -35,7 +35,8 @@ class UserController{
             res.status(200).json({
                 id: user.id,
                 email: user.email,
-                access_token
+                access_token,
+                saldo: user.saldo
             })
         })
         .catch(err=>{

@@ -7,14 +7,34 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: false
+    isLogin: false,
+    wishlists: []
   },
   mutations: {
     SET_ISLOGIN (state, value) {
       this.state.isLogin = value
+    },
+    SET_WISHLISTS (state, value) {
+      this.state.wishlists = value
     }
   },
   actions: {
+    fetchWishList (context, payload) {
+      axios({
+        url: 'wishlists',
+        method: 'GET',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.commit('SET_WISHLISTS', data)
+        })
+        .catch(({ response }) => {
+          console.log(response.data)
+        })
+    },
     login (context, payload) {
       const { email, password } = payload
       axios({
@@ -26,6 +46,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           console.log(data)
+          localStorage.access_token = data.access_token
           router.push('/')
         })
         .catch(({ response }) => {

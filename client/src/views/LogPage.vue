@@ -1,4 +1,5 @@
 <template>
+<div class="container">
 <div id="login-container" class="bg-light p-3 rounded mb-5">
         <div class="row d-flex">
           <div class="col-md-4">
@@ -14,11 +15,12 @@
             <Register v-else :logHideShow="logHideShow"/>
 
           </div>
-          <dov class="col-md-8">
+          <div class="col-md-8">
             <img class="card-img" src="../images/background_login.jpeg" alt="">
-          </dov>
+          </div>
         </div>
       </div>
+</div>
 </template>
 
 <script>

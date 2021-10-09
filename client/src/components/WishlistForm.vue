@@ -21,7 +21,7 @@
           <button @click.prevent="addWishlist" id="btn-add" type="submit" class="btn btn-dark">
             Submit
           </button>
-          <button id="btn-cancel" type="submit" class="btn btn-dark">
+          <button @click="showForm" id="btn-cancel" type="submit" class="btn btn-dark">
             Cancel
           </button>
         </form>

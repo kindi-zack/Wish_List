@@ -7,8 +7,8 @@
                     <div id="saldo-container" class="card" >
                         <img src="../images/balance.jpeg" class="img-thumbnail" alt="...">
                         <div class="card-body">
+                        <p class="card-text" id="current_saldo">{{whoAmI}}</p>
                         <h5 class="card-title">Current Saldo</h5>
-                        <!-- <p class="card-text" id="current_saldo"></p> -->
                         </div>
                     </div>
               </div>
@@ -56,6 +56,9 @@ export default {
   computed: {
     wishlists () {
       return this.$store.state.wishlists
+    },
+    whoAmI () {
+      return this.$store.state.whoAmI
     }
   },
   created () {

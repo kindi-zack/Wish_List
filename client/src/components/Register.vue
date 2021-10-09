@@ -50,6 +50,7 @@ export default {
         .then(_ => {
           this.email = ''
           this.password = ''
+          this.logHideShow()
         })
     }
   }

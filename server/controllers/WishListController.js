@@ -2,13 +2,21 @@ const { User, Wishlist } = require('../models')
 
 class WishListController {
     static findwl(req, res, next) {
+        const IdUser = req.decoded.id
+        const whoAmI = req.decoded.email
         Wishlist.findAll({
-            // include: {
-            //     model: User
-            // }
+            include: {
+                model: User
+            },
+            where: {
+                IdUser
+            }
         })
         .then(data => {
-            res.status(200).json(data)
+            res.status(200).json({
+                data,
+                whoAmI
+            })
         })
         .catch(err=>{
             next(err)

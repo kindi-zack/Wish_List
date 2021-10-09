@@ -17,9 +17,9 @@
                 <div id="wishlists-container">
                     <h1 class="bg-dark p-2 rounded-sm text-center text-white">My Wishlists</h1>
                     <h3 class="text-center" id="empty-wishlist">You don't have any wishlist</h3>
-                    <div id="wishlists" class="row my-4 px-4">
+                    <div id="wishlists" class="row my-2 px-2">
                     <!-- Each of comic will have one of this card -->
-                      <WishlistCard />
+                      <WishlistCard v-for="wl in wishlists" :key="wl.id" :wl="wl"/>
                     </div>
                 </div>
               </div>
@@ -42,6 +42,11 @@ export default {
   components: {
     WishlistForm,
     WishlistCard
+  },
+  computed: {
+    wishlists () {
+      return this.$store.state.wishlists
+    }
   },
   created () {
     this.$store.dispatch('fetchWishList')

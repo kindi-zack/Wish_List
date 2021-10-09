@@ -1,3 +1,4 @@
+/* eslint camelcase: ["error", {"properties": "never", ignoreDestructuring: true}] */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../api/axios'
@@ -19,6 +20,27 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    addWishlist (context, payload) {
+      const { image_url, price, name, description } = payload
+
+      axios({
+        url: 'wishlists',
+        method: 'POST',
+        headers: {
+          access_token: localStorage.access_token
+        },
+        data: {
+          image_url, price, name, description
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.dispatch('fetchWishList')
+        })
+        .catch(({ response }) => {
+          console.log(response.err)
+        })
+    },
     fetchWishList (context, payload) {
       axios({
         url: 'wishlists',

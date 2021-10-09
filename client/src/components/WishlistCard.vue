@@ -5,7 +5,7 @@
     <h5 class="card-title">{{wl.name}}</h5>
     <p class="card-text">{{wl.price}}</p>
     <p class="card-text">{{wl.description}}</p>
-    <a href="#" class="btn btn-primary">Delete</a>
+    <a @click.prevent="deleteWishlist(wl.id)" href="#" class="btn btn-primary">Delete</a>
 </div>
 </div>
 </template>
@@ -16,6 +16,11 @@ export default {
   computed: {
     wishlists () {
       return this.$store.state.wishlists
+    }
+  },
+  methods: {
+    deleteWishlist (id) {
+      this.$store.dispatch('deleteWishlist', { id })
     }
   }
 }

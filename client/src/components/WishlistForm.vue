@@ -39,6 +39,7 @@ export default {
       name: ''
     }
   },
+  props: ['showForm'],
   methods: {
     addWishlist () {
       this.$store.dispatch('addWishlist', {
@@ -51,6 +52,7 @@ export default {
       this.price = ''
       this.image_url = ''
       this.description = ''
+      this.showForm()
     }
   }
 }

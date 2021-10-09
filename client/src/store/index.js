@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: false,
+    isLogin: true,
     wishlists: []
   },
   mutations: {
@@ -20,6 +20,23 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    deleteWishlist (context, payload) {
+      const { id } = payload
+      axios({
+        url: `wishlists/${id}`,
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.dispatch('fetchWishList')
+        })
+        .catch(({ response }) => {
+          console.log(response.err)
+        })
+    },
     addWishlist (context, payload) {
       const { image_url, price, name, description } = payload
 
@@ -69,6 +86,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log(data)
           localStorage.access_token = data.access_token
+          context.commit('SET_ISLOGIN', true)
           router.push('/')
         })
         .catch(({ response }) => {

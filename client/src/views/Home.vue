@@ -25,11 +25,11 @@
               </div>
           </div>
           <div class="row justify-content-end my-4">
-              <button class="btn btn-dark" id="btn-show-add">Add Wishlist</button>
+              <button @click="showForm" class="btn btn-dark" id="btn-show-add">Add Wishlist</button>
           </div>
       </div>
       <!-- This is form page to update a comic -->
-      <WishlistForm />
+      <WishlistForm :showForm="showForm" v-if="isShow" />
   </div>
 </template>
 
@@ -38,10 +38,20 @@
 import WishlistForm from '../components/WishlistForm.vue'
 import WishlistCard from '../components/WishlistCard.vue'
 export default {
+  data () {
+    return {
+      isShow: false
+    }
+  },
   name: 'Home',
   components: {
     WishlistForm,
     WishlistCard
+  },
+  methods: {
+    showForm () {
+      this.isShow = !this.isShow
+    }
   },
   computed: {
     wishlists () {

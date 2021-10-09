@@ -40,6 +40,16 @@ export default {
     logHideShow () {
       this.logForm = !this.logForm
     }
+  },
+  created () {
+    this.$store.commit('SET_ISLOGIN', false)
+  },
+  beforeRouteEnter (to, from, next) {
+    if (localStorage.access_token) {
+      next('/')
+    } else {
+      next()
+    }
   }
 }
 </script>

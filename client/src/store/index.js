@@ -7,8 +7,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    showLogOut: false
   },
   mutations: {
+    SET_SHOWLOGOUT (state, value) {
+      state.showLogOut = value
+    }
   },
   actions: {
     login (context, payload) {
@@ -23,6 +27,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log(data)
           localStorage.access_token = data.access_token
+          context.commit('SET_SHOWLOGOUT', true)
           router.push('/')
         })
         .catch(({ response }) => {

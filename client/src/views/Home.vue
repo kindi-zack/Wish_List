@@ -7,8 +7,9 @@
                     <div id="saldo-container" class="card" >
                         <img src="../images/balance.jpeg" class="img-thumbnail" alt="...">
                         <div class="card-body">
+                        <p class="card-text" id="user">{{ user.email }}</p>
                         <h5 class="card-title">Current Saldo</h5>
-                        <!-- <p class="card-text" id="current_saldo"></p> -->
+                        <p class="card-text" id="current_saldo">Rp {{ saldo }}</p>
                         </div>
                     </div>
               </div>
@@ -19,7 +20,12 @@
                     <h3 class="text-center" id="empty-wishlist">You don't have any wishlist</h3>
                     <div id="wishlists" class="row my-4 px-4">
                     <!-- Each of comic will have one of this card -->
-
+                      <div v-for="item in wishlists" :key="item.id" class="col-md-4">
+                        <h4>{{ item.name }}</h4>
+                        <img :src="item.image_url" alt="">
+                        <p>price {{ item.price}}</p>
+                        <p>desc {{ item.description}}</p>
+                      </div>
                     </div>
                 </div>
               </div>
@@ -43,6 +49,17 @@ export default {
       showAddForm: false
     }
   },
+  computed: {
+    wishlists () {
+      return this.$store.state.wishlists
+    },
+    user () {
+      return this.$store.state.user
+    },
+    saldo () {
+      return this.$store.state.saldo
+    }
+  },
   methods: {
     toggleAdd () {
       this.showAddForm = !this.showAddForm
@@ -57,6 +74,15 @@ export default {
     } else {
       next('/login')
     }
+  },
+  created () {
+    this.$store.dispatch('fetchWishlist')
   }
 }
 </script>
+
+<style>
+  #wishlists-container img {
+    width: 200px;
+  }
+</style>

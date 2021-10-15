@@ -7,14 +7,71 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    showLogOut: false
+    showLogOut: false,
+    wishlists: [],
+    user: [],
+    saldo: 0
   },
   mutations: {
     SET_SHOWLOGOUT (state, value) {
       state.showLogOut = value
+    },
+    SET_USER (state, value) {
+      state.user = value
+    },
+    SET_SALDO (state, value) {
+      state.saldo = value
+    },
+    SET_WISHLISTS (state, value) {
+      state.wishlists = value
     }
   },
   actions: {
+    fetchWishlist (context) {
+      axios({
+        url: 'wishlists',
+        method: 'get',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(({ data }) => {
+          // console.log(data)
+          context.commit('SET_WISHLISTS', data.data)
+          context.commit('SET_USER', data.user)
+          const result1 = data.user
+          return result1
+        })
+        .then(result1 => {
+          return axios({
+            url: `user/${result1.id}`,
+            method: 'get'
+          })
+        })
+        .then(({ data }) => {
+          // console.log(data)
+          context.commit('SET_SALDO', data.saldo)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+        })
+    },
+    register (context, payload) {
+      const { email, password } = payload
+      axios({
+        url: 'register',
+        method: 'post',
+        data: {
+          email, password
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch(({ response }) => {
+          console.log(response.data)
+        })
+    },
     login (context, payload) {
       const { email, password } = payload
       axios({

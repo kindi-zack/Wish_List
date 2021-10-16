@@ -1,3 +1,4 @@
+/* eslint camelcase: ["error", {"properties": "never", ignoreDestructuring: true}] */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../api/axios'
@@ -27,6 +28,43 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    deleteWL (context, payload) {
+      const { id } = payload
+      axios({
+        url: `wishlists/${id}`,
+        method: 'delete',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.dispatch('fetchWishlist')
+        })
+        .catch(({ response }) => {
+          console.log(response.data)
+        })
+    },
+    addWishlist (context, payload) {
+      const { price, name, image_url, description } = payload
+      axios({
+        url: 'wishlists',
+        method: 'post',
+        headers: {
+          access_token: localStorage.access_token
+        },
+        data: {
+          price, name, image_url, description
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.dispatch('fetchWishlist')
+        })
+        .catch(({ response }) => {
+          console.log(response)
+        })
+    },
     fetchWishlist (context) {
       axios({
         url: 'wishlists',

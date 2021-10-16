@@ -1,10 +1,10 @@
 <template>
       <div id="add-container" class="">
         <h1>Add Wishlist</h1>
-        <form id="add-form" class="my-4">
+        <form @submit.prevent="addWishlist" id="add-form" class="my-4">
           <div class="form-group">
             <label for="wl-name">Name</label>
-            <input v-model="name" id="wl-name" type="text" class="form-control" name="wl-name" placeholder="Wishlist Name" />
+            <input required v-model="name" id="wl-name" type="text" class="form-control" name="wl-name" placeholder="Wishlist Name" />
           </div>
           <div class="form-group">
             <label for="price">Image</label>
@@ -21,7 +21,7 @@
           <button id="btn-add" type="submit" class="btn btn-dark">
             Submit
           </button>
-          <button id="btn-cancel" type="submit" class="btn btn-dark">
+          <button @click.prevent="$emit('show-add')" type="click" id="btn-cancel" class="btn btn-dark">
             Cancel
           </button>
         </form>
@@ -37,6 +37,20 @@ export default {
       image_url: '',
       description: '',
       price: ''
+    }
+  },
+  methods: {
+    addWishlist () {
+      this.$store.dispatch('addWishlist', {
+        name: this.name,
+        image_url: this.image_url,
+        description: this.description,
+        price: this.price
+      })
+      this.name = ''
+      this.image_url = ''
+      this.description = ''
+      this.price = ''
     }
   }
 }

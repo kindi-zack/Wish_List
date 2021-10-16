@@ -17,15 +17,10 @@
                 <!-- This is Wishlists -->
                 <div id="wishlists-container">
                     <h1 class="bg-dark p-2 rounded-sm text-center text-white">My Wishlists</h1>
-                    <h3 class="text-center" id="empty-wishlist">You don't have any wishlist</h3>
+                    <h3 v-show="wishlists.length === 0" class="text-center" id="empty-wishlist">You don't have any wishlist</h3>
                     <div id="wishlists" class="row my-4 px-4">
                     <!-- Each of comic will have one of this card -->
-                      <div v-for="item in wishlists" :key="item.id" class="col-md-4">
-                        <h4>{{ item.name }}</h4>
-                        <img :src="item.image_url" alt="">
-                        <p>price {{ item.price}}</p>
-                        <p>desc {{ item.description}}</p>
-                      </div>
+                        <Cards v-for="item in wishlists" :key="item.id" :item="item" />
                     </div>
                 </div>
               </div>
@@ -35,12 +30,13 @@
           </div>
       </div>
       <!-- This is form page to update a comic -->
-      <AddForm v-show="showAddForm" />
+      <AddForm @show-add="toggleAdd" v-show="showAddForm" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import Cards from '../components/Cards.vue'
 import AddForm from '../components/AddForm.vue'
 export default {
   name: 'Home',
@@ -66,7 +62,8 @@ export default {
     }
   },
   components: {
-    AddForm
+    AddForm,
+    Cards
   },
   beforeRouteEnter (from, to, next) {
     if (localStorage.access_token) {

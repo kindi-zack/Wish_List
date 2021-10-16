@@ -17,6 +17,10 @@ export default {
 }
 </script>
 <style>
+body {
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -26,7 +30,8 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding: 0;
+  padding-bottom: 30px;
 }
 
 #nav a {

@@ -3,6 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../api/axios'
 import router from '../router/index'
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -30,40 +31,69 @@ export default new Vuex.Store({
   actions: {
     deleteWL (context, payload) {
       const { id } = payload
-      axios({
-        url: `wishlists/${id}`,
-        method: 'delete',
-        headers: {
-          access_token: localStorage.access_token
+      Swal.fire({
+        title: 'Do you want to Delete This Item ?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        denyButtonText: 'Don\'t Delete'
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          axios({
+            url: `wishlists/${id}`,
+            method: 'delete',
+            headers: {
+              access_token: localStorage.access_token
+            }
+          })
+            .then(({ data }) => {
+              console.log(data)
+              context.dispatch('fetchWishlist')
+              Swal.fire('Deleted!', '', 'success')
+            })
+            .catch(({ response }) => {
+              console.log(response.data)
+            })
+        } else if (result.isDenied) {
+          Swal.fire('Delete Cenceled', '', 'info')
         }
       })
-        .then(({ data }) => {
-          console.log(data)
-          context.dispatch('fetchWishlist')
-        })
-        .catch(({ response }) => {
-          console.log(response.data)
-        })
     },
     addWishlist (context, payload) {
       const { price, name, image_url, description } = payload
-      axios({
-        url: 'wishlists',
-        method: 'post',
-        headers: {
-          access_token: localStorage.access_token
-        },
-        data: {
-          price, name, image_url, description
+      Swal.fire({
+        title: 'Are sure to add this Item ?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Add',
+        denyButtonText: "Don't Add"
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          axios({
+            url: 'wishlists',
+            method: 'post',
+            headers: {
+              access_token: localStorage.access_token
+            },
+            data: {
+              price, name, image_url, description
+            }
+          })
+            .then(({ data }) => {
+              console.log(data)
+              context.dispatch('fetchWishlist')
+              Swal.fire('added!', '', 'success')
+            })
+            .catch(({ response }) => {
+              console.log(response.data.msg)
+              Swal.fire(response.data.msg, '', 'error')
+            })
+        } else if (result.isDenied) {
+          Swal.fire('Canceled Adding Item', '', 'info')
         }
       })
-        .then(({ data }) => {
-          console.log(data)
-          context.dispatch('fetchWishlist')
-        })
-        .catch(({ response }) => {
-          console.log(response)
-        })
     },
     fetchWishlist (context) {
       axios({
@@ -108,6 +138,10 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           console.log(response.data)
+          Swal.fire({
+            icon: 'error',
+            title: response.data
+          })
         })
     },
     login (context, payload) {
@@ -120,12 +154,16 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           localStorage.access_token = data.access_token
           context.commit('SET_SHOWLOGOUT', true)
           router.push('/')
         })
         .catch(({ response }) => {
+          Swal.fire({
+            icon: 'error',
+            title: response.data.msg
+          })
           console.log(response.data)
         })
     }

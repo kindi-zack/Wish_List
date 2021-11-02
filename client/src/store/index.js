@@ -19,6 +19,22 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    deleteWl (context, payload) {
+      const { id } = payload
+      Axios({
+        url: `wishlists/${id}`,
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch(({ response }) => {
+          console.log(response.data)
+        })
+    },
     addWl (context, payload) {
       const { name, price, description } = payload
       const imageUrl = payload.image_url
@@ -38,8 +54,8 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log(data)
         })
-        .catch(err => {
-          console.log(err)
+        .catch(({ response }) => {
+          console.log((response.data))
         })
     },
     login (context, payload) {

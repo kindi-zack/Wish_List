@@ -19,6 +19,29 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    addWl (context, payload) {
+      const { name, price, description } = payload
+      const imageUrl = payload.image_url
+      Axios({
+        url: 'wishlists',
+        method: 'post',
+        headers: {
+          access_token: localStorage.access_token
+        },
+        data: {
+          name,
+          price,
+          description,
+          image_url: imageUrl
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     login (context, payload) {
       const { email, password } = payload
       Axios({
@@ -46,11 +69,19 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          const user = data[0].User
+          const user = data.user
           // console.log({ user, data })
-          context.commit('SET_USER', user)
           // console.log(user)
-          context.commit('SET_WISHLISTS', data)
+          context.commit('SET_WISHLISTS', data.data)
+
+          return Axios({
+            url: `user/${user.id}`,
+            method: 'get'
+          })
+        })
+        .then(({ data }) => {
+          context.commit('SET_USER', data)
+          context.dispatch('showWl')
         })
         .catch(({ response }) => {
           console.log(response.data)

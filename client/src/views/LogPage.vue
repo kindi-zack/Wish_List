@@ -12,12 +12,12 @@
           <div class="col-md-4">
             <h2 class="text-dark">Welcome to</h2>
             <h2 class="text-dark">Shopping WishList</h2>
-            <p id='loginNotif' class="text-dark">Please Login first</p>
-            <p id='regNotif' class="text-dark">Please Register Your Account</p>
+            <p v-show="showLog" id='loginNotif' class="text-dark">Please Login first</p>
+            <p v-show="!showLog" id='regNotif' class="text-dark">Please Register Your Account</p>
 
-            <Login />
+            <Login @toggle-reg="changeShowLog" v-if="showLog" />
 
-            <Register />
+            <Register @toggle-login="changeShowLog" v-else />
 
           </div>
           <div class="col-md-8">
@@ -33,6 +33,16 @@ import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 export default {
   name: 'Log-page',
+  data () {
+    return {
+      showLog: true
+    }
+  },
+  methods: {
+    changeShowLog () {
+      this.showLog = !this.showLog
+    }
+  },
   components: {
     Login,
     Register

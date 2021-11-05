@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-                <form @submit.prevent="login" id='loginForm' class="my-4">
+            <form @submit.prevent="login" id='loginForm' class="my-4">
               <div class="form-group">
                 <label for="email-login">Email</label>
                 <input
@@ -8,7 +8,6 @@
                   type="text"
                   class="form-control"
                   name="email-login"
-                  id="email-login"
                   required
                 />
               </div>
@@ -19,7 +18,6 @@
                   type="password"
                   class="form-control"
                   name="password-login"
-                  id="password-login"
                   required
                 />
               </div>
@@ -27,7 +25,7 @@
                 Submit
               </button>
             </form>
-            <a href="#" id='show-reg'>Register</a>
+            <a @click.prevent="$emit('toggle-reg')" href="#" id='show-reg'>Register</a>
   </div>
 </template>
 

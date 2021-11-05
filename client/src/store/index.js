@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: '',
-    wishlists: []
+    wishlists: [],
+    outBtn: false
   },
   mutations: {
     SET_USER (state, value) {
@@ -16,9 +17,29 @@ export default new Vuex.Store({
     },
     SET_WISHLISTS (state, value) {
       state.wishlists = value
+    },
+    SET_OUTBTN (state, value) {
+      state.outBtn = value
     }
   },
   actions: {
+    register (context, payload) {
+      const { email, username, password } = payload
+      Axios({
+        url: 'user/register',
+        method: 'post',
+        data: {
+          email, username, password
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch(({ response }) => {
+          console.log(response.data)
+          return false
+        })
+    },
     deleteWl (context, payload) {
       const { id } = payload
       Axios({
@@ -71,6 +92,7 @@ export default new Vuex.Store({
           console.log(data.access_token)
           localStorage.access_token = data.access_token
           Router.push('/')
+          this.context.commit('SET_OUTBTN', true)
         })
         .catch(({ response }) => {
           console.log(response.data)

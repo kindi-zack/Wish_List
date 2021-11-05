@@ -21,9 +21,10 @@
           <button id="btn-add" type="submit" class="btn btn-dark">
             Submit
           </button>
-          <button id="btn-cancel" type="" class="btn btn-dark">
+          <!-- <button @click="cancelBtn" id="btn-cancel" type="none" class="btn btn-dark">
             Cancel
-          </button>
+          </button> -->
+          <input @click="cancelBtn" type="button" value="Cancel" class="btn btn-dark">
         </form>
       </div>
 </template>
@@ -47,7 +48,15 @@ export default {
         price: this.price,
         description: this.description
       })
+      this.name = ''
+      this.image_url = ''
+      this.price = ''
+      this.description = ''
 
+      this.$emit('add-toggle')
+    },
+    cancelBtn () {
+      this.$emit('cancel-btn')
       this.name = ''
       this.image_url = ''
       this.price = ''

@@ -31,7 +31,7 @@
           </div>
       </div>
       <!-- This is form page to update a comic -->
-      <AddFrom v-show="showForm" />
+      <AddFrom @add-toggle="showAddFrom" @cancel-btn="showAddFrom" v-show="showForm" />
     </div>
   </div>
 </template>
@@ -67,6 +67,7 @@ export default {
   },
   created () {
     this.$store.dispatch('showWl')
+    this.$store.commit('SET_OUTBTN', true)
   },
   beforeRouteEnter (to, from, next) {
     if (localStorage.access_token) {

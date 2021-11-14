@@ -1,5 +1,13 @@
 function errHandler(err, req, res, next) {
-  res.status(400).json(err)
+  switch(err.name) {
+    case "SequelizeDatabaseError":
+      res.status(400).json(err)
+      break;
+
+    default:
+      res.status(500).json(err)
+      break;
+  }
 }
 
 

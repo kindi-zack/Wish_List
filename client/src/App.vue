@@ -1,13 +1,23 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div id='app'>
+    <div id='nav'>
+      <Navbar />
     </div>
-    <router-view/>
+    <div class="container">
+      <router-view/>
+    </div>
   </div>
 </template>
 
+<script>
+import Navbar from './components/Navbar.vue'
+export default {
+  components: {
+    Navbar
+  }
+}
+
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -18,7 +28,7 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 0;
 }
 
 #nav a {

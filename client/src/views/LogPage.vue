@@ -46,6 +46,10 @@ export default {
   components: {
     Login,
     Register
+  },
+  beforeRouteEnter (from, to, next) {
+    if (!localStorage.access_token) next()
+    next('/')
   }
 }
 </script>

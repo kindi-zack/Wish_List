@@ -26,6 +26,10 @@ export default {
   color: #2c3e50;
 }
 
+a {
+  cursor: pointer
+}
+
 #nav {
   padding: 0 0 30px 0;
 }

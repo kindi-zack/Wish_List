@@ -37,7 +37,7 @@ export default new Vuex.Store({
         })
         .catch(({ response }) => {
           console.log(response.data)
-          return false
+          // return false
         })
     },
     deleteWl (context, payload) {

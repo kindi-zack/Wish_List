@@ -22,6 +22,11 @@ const routes = [
     path: '/login',
     name: 'Log-Page',
     component: () => import('../views/LogPage.vue')
+  },
+  {
+    path: '*',
+    name: 'not-found',
+    component: () => import('../views/Page404.vue')
   }
 ]
 

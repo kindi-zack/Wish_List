@@ -1,6 +1,6 @@
 <template>
       <nav class="navbar navbar-light bg-dark justify-content-between">
-        <a class="navbar-brand text-white">My Wishlist</a>
+        <a @click.prevent="goHome" class="navbar-brand text-white">My Wishlist</a>
         <button v-show="outBtn" @click="logout" id="btn-logout" class="btn btn-danger">Logout</button>
     </nav>
 </template>
@@ -22,6 +22,10 @@ export default {
       localStorage.clear()
       this.$store.commit('SET_OUTBTN', false)
       this.$router.push('/login')
+    },
+    goHome () {
+      this.$router.push('/')
+        .catch(_ => console.log('go home'))
     }
   }
 }
